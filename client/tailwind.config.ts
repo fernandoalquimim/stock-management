@@ -3,47 +3,66 @@ import { createThemes } from "tw-colors";
 import colors from "tailwindcss/colors";
 
 const baseColors = [
+  "slate",
   "gray",
+  "zinc",
+  "neutral",
+  "stone",
   "red",
+  "orange",
+  "amber",
   "yellow",
+  "lime",
   "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
   "blue",
   "indigo",
+  "violet",
   "purple",
+  "fuchsia",
   "pink",
+  "rose",
 ] as const;
 
 const shadeMapping = {
-  "50": "900",
-  "100": "800",
-  "200": "700",
-  "300": "600",
-  "400": "500",
-  "500": "400",
-  "600": "300",
-  "700": "200",
-  "800": "100",
-  "900": "50",
+  "50": "950",
+  "100": "900",
+  "200": "800",
+  "300": "700",
+  "400": "600",
+  "500": "500",
+  "600": "400",
+  "700": "300",
+  "800": "200",
+  "900": "100",
+  "950": "50",
 } as const;
 
 type BaseColor = (typeof baseColors)[number];
-type Shade = keyof typeof shadeMapping;
-type ThemeObject = Record<BaseColor, Record<Shade, string>>;
+type ShadeKey = keyof typeof shadeMapping;
+type ThemeObject = Record<BaseColor, Record<ShadeKey, string>>;
 
 const generateThemeObject = (
   palette: typeof colors,
-  mapping: typeof shadeMapping,
+  shadesMap: typeof shadeMapping,
   invert = false,
 ): ThemeObject => {
   const theme = {} as ThemeObject;
+
   baseColors.forEach((color) => {
-    const colorTheme = {} as Record<Shade, string>;
-    (Object.keys(mapping) as Shade[]).forEach((key) => {
-      const shadeKey: Shade = invert ? mapping[key] : key;
+    const colorTheme = {} as Record<ShadeKey, string>;
+
+    (Object.keys(shadesMap) as ShadeKey[]).forEach((key) => {
+      const shadeKey: ShadeKey = invert ? shadesMap[key] : key;
       colorTheme[key] = palette[color][shadeKey];
     });
+
     theme[color] = colorTheme;
   });
+
   return theme;
 };
 
