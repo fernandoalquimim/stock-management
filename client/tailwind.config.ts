@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 import { createThemes } from "tw-colors";
 import colors from "tailwindcss/colors";
+import plugin from "tailwindcss/plugin";
 
 const baseColors = [
   "slate",
@@ -89,6 +90,17 @@ const config: Config = {
       },
     },
   },
-  plugins: [createThemes(themes)],
+  plugins: [
+    createThemes(themes),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".flex-between-center": {
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        },
+      });
+    }),
+  ],
 };
 export default config;
