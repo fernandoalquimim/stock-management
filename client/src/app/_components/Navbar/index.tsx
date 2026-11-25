@@ -3,13 +3,30 @@
 import Link from "next/link";
 import { Bell, Menu, Search, Settings, Sun } from "lucide-react";
 
+import { useAppDispatch, useAppSelector } from "@/app/redux";
+import { setIsSidebarCollapsed, setIsDarkMode } from "@/state";
+
 const Navbar = () => {
+  const dispatch = useAppDispatch();
+  const isSidebarCollapsed = useAppSelector(
+    (state) => state.global.isSidebarCollapsed,
+  );
+  const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+
+  const handleToggleSidebar = () => {
+    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
+  };
+
+  const handleToggleDarkMode = () => {
+    dispatch(setIsDarkMode(!isDarkMode));
+  };
+
   return (
     <div className="flex-between-center w-full mb-7">
       <div className="flex-between-center gap-5">
         <button
           className="px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100"
-          onClick={() => {}}
+          onClick={handleToggleSidebar}
         >
           <Menu className="w-4 h-4" />
         </button>
@@ -28,13 +45,13 @@ const Navbar = () => {
       <div className="flex-between-center gap-5">
         <div className="hidden md:flex justify-between items-center gap-5">
           <div>
-            <button onClick={() => {}}>
+            <button onClick={handleToggleDarkMode}>
               <Sun className="text-gray-500 cursor-pointer" size={24} />
             </button>
           </div>
           <div className="relative">
             <Bell className="text-gray-500 cursor-pointer" size={24} />
-            <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-red-100 bg-red-400 rounded-full">
+            <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-[0.4rem] py-1 text-xs font-semibold leading-none text-gray-100 bg-red-400 rounded-full">
               3
             </span>
           </div>
